@@ -47,10 +47,10 @@ The bucket is created, but Terraform marks the resource as failed, so dependent 
 
 | | |
 |---|---|
-| Website | ![Website](image/V1/v1-website.png) |
-| Bucket objects | ![Objects](image/V1/v1-bucket-objects.png) |
-| Static hosting | ![Hosting](image/V1/v1-static-hosting.png) |
-| Bucket policy | ![Policy](image/V1/v1-bucket-policy.png) |
+| Website | ![Website](images/V1/v1-website.png) |
+| Bucket objects | ![Objects](images/V1/v1-bucket-objects.png) |
+| Static hosting | ![Hosting](images/V1/v1-static-hosting.png) |
+| Bucket policy | ![Policy](images/V1/v1-bucket-policy.png) |
 
 ## Limitations and next steps
 
