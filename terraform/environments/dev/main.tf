@@ -5,6 +5,11 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 6.28.0"
     }
+
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6"
+    }
   }
 }
 
@@ -33,4 +38,16 @@ module "security_groups" {
   vpc_id      = module.network.vpc_id
 
   ssh_allowed_cidrs = var.ssh_allowed_cidrs
+}
+
+module "static_site" {
+  source = "../../modules/s3-static-site"
+
+  name        = "cafe"
+  environment = "dev"
+  site_path   = "${path.root}/../../../app/static-site"
+}
+
+output "website_url" {
+  value = "http://${module.static_site.website_endpoint}"
 }
