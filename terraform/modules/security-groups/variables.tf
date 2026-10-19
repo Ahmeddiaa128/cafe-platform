@@ -18,6 +18,12 @@ variable "ssh_allowed_cidrs" {
   type        = list(string)
 }
 
+variable "web_http_cidrs" {
+  description = "CIDRs allowed to reach web servers on port 80 directly (leave empty when using an ALB)"
+  type        = list(string)
+  default     = []
+}
+
 variable "db_port" {
   description = "Database port"
   type        = number

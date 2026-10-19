@@ -63,6 +63,17 @@ resource "aws_security_group" "web" {
     cidr_blocks = var.ssh_allowed_cidrs
   }
 
+    dynamic "ingress" {                                    #Version 2
+    for_each = length(var.web_http_cidrs) > 0 ? [1] : []
+    content {
+      description = "HTTP direct (no ALB)"
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = var.web_http_cidrs
+    }
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
