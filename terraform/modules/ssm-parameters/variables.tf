@@ -31,3 +31,8 @@ variable "show_server_info" {
   type    = string
   default = "false"
 }
+
+variable "db_password" {
+  type      = string
+  sensitive = true
+}

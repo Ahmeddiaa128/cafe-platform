@@ -35,13 +35,10 @@ module "security_groups" {
   vpc_id      = module.network.vpc_id
 
   ssh_allowed_cidrs = var.ssh_allowed_cidrs
-  web_http_cidrs    = ["0.0.0.0/0"] # V2: no ALB yet
+  web_http_cidrs    = ["0.0.0.0/0"] # V2 & V3: no ALB yet
 }
 
-module "ssm_parameters" {
-  source      = "../../modules/ssm-parameters"
-  environment = "prod"
-}
+
 
 # Version 1
 #module "static_site" {
@@ -53,6 +50,11 @@ module "ssm_parameters" {
 #}
 
 # Version 2
+#module "ssm_parameters" {
+#  source      = "../../modules/ssm-parameters"
+#  environment = "prod"
+#}
+
 module "compute" {
   source = "../../modules/compute"
 
@@ -61,6 +63,30 @@ module "compute" {
   subnet_ids         = [module.network.public_subnet_ids[0]] # V2: one instance
   security_group_ids = [module.security_groups.web_sg_id]
 }
+
+# Version 3
+resource "random_password" "db" {
+  length  = 20
+  special = false
+}
+
+module "ssm_parameters" {
+  source      = "../../modules/ssm-parameters"
+  environment = "prod"
+  db_host     = module.database.address
+  db_password = random_password.db.result
+}
+
+module "database" {
+  source = "../../modules/database"
+
+  name               = "cafe"
+  environment        = "prod"
+  subnet_ids         = module.network.private_subnet_ids
+  security_group_ids = [module.security_groups.db_sg_id]
+  password           = random_password.db.result
+}
+
 
 #output "website_url" {
 #  value = "http://${module.static_site.website_endpoint}"
