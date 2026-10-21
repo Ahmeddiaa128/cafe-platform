@@ -1,0 +1,11 @@
+aws_region: us-east-1
+
+db_host:     "{{ lookup('amazon.aws.ssm_parameter', '/cafe/dbUrl',      region=aws_region) }}"
+db_user:     "{{ lookup('amazon.aws.ssm_parameter', '/cafe/dbUser',     region=aws_region) }}"
+db_name:     "{{ lookup('amazon.aws.ssm_parameter', '/cafe/dbName',     region=aws_region) }}"
+db_password: "{{ lookup('amazon.aws.ssm_parameter', '/cafe/dbPassword', region=aws_region, with_decryption=true) }}"
+
+cafe_zip_url: "https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-200-ACACAD-3-113230/03-lab-mod5-challenge-EC2/s3/cafe.zip"
+db_zip_url:   "https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-200-ACACAD-3-113230/03-lab-mod5-challenge-EC2/s3/db.zip"
+aws_phar_url: "https://docs.aws.amazon.com/aws-sdk-php/v3/download/aws.phar"
+php_timezone: "America/New_York"

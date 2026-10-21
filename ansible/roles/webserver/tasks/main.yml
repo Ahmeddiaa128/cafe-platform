@@ -1,0 +1,30 @@
+---
+- name: Install base packages
+  ansible.builtin.dnf:
+    name: [unzip, wget, tar]
+    state: present
+    update_cache: true
+
+- name: Install Apache, PHP and the MariaDB client
+  ansible.builtin.dnf:
+    name:
+      - httpd
+      - php
+      - php-mysqlnd
+      - php-json
+      - mariadb105
+    state: present
+
+- name: Set PHP timezone
+  ansible.builtin.lineinfile:
+    path: /etc/php.ini
+    regexp: '^;?date\.timezone'
+    line: 'date.timezone = "{{ php_timezone }}"'
+  notify: Restart httpd
+
+- name: Enable and start httpd
+  ansible.builtin.service:
+    name: httpd
+    state: started
+    enabled: true
+

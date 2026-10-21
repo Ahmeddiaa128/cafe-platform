@@ -1,0 +1,8 @@
+---
+- name: Configure the café web server
+  hosts: web
+  become: true
+  roles:
+    - webserver
+    - app-deploy
+    - db-init

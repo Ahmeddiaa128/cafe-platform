@@ -1,0 +1,27 @@
+---
+- name: Download DB scripts
+  ansible.builtin.get_url:
+    url: "{{ db_zip_url }}"
+    dest: /tmp/db.zip
+    mode: "0644"
+
+- name: Extract DB scripts
+  ansible.builtin.unarchive:
+    src: /tmp/db.zip
+    dest: /tmp/
+    remote_src: true
+
+- name: Check whether the schema already exists
+  ansible.builtin.command: >
+    mysql -h {{ db_host }} -u {{ db_user }} -p{{ db_password }}
+    -N -e "SHOW TABLES FROM {{ db_name }} LIKE 'product'"
+  register: schema_check
+  changed_when: false
+  no_log: true
+
+- name: Load schema and seed data
+  ansible.builtin.shell: >
+    mysql -h {{ db_host }} -u {{ db_user }} -p{{ db_password }}
+    < /tmp/db/sql/create-db.sql
+  when: schema_check.stdout == ""
+  no_log: true

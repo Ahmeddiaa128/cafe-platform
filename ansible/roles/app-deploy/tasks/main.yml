@@ -1,0 +1,25 @@
+---
+- name: Download café application
+  ansible.builtin.get_url:
+    url: "{{ cafe_zip_url }}"
+    dest: /tmp/cafe.zip
+    mode: "0644"
+
+- name: Extract café application
+  ansible.builtin.unarchive:
+    src: /tmp/cafe.zip
+    dest: /var/www/html/
+    remote_src: true
+    creates: /var/www/html/cafe/index.php
+
+- name: Download AWS SDK for PHP
+  ansible.builtin.get_url:
+    url: "{{ aws_phar_url }}"
+    dest: /var/www/html/cafe/aws.phar
+    mode: "0644"
+
+- name: Deploy SSM-based getAppParameters.php
+  ansible.builtin.copy:
+    src: getAppParameters.php
+    dest: /var/www/html/cafe/getAppParameters.php
+    mode: "0644"
