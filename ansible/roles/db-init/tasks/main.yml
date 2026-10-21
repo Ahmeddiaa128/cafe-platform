@@ -17,7 +17,7 @@
     -N -e "SHOW TABLES FROM {{ db_name }} LIKE 'product'"
   register: schema_check
   changed_when: false
-  no_log: true
+  no_log: false
 
 - name: Load schema and seed data
   ansible.builtin.shell: >
