@@ -87,6 +87,22 @@ module "database" {
   password           = random_password.db.result
 }
 
+# Version 4
+module "nacl" {
+  source = "../../modules/nacl"
+
+  name        = "cafe"
+  environment = "prod"
+  vpc_id      = module.network.vpc_id
+
+  public_subnet_ids    = module.network.public_subnet_ids
+  private_subnet_ids   = module.network.private_subnet_ids
+  public_subnet_cidrs  = module.network.public_subnet_cidrs
+  private_subnet_cidrs = module.network.private_subnet_cidrs
+
+  ssh_allowed_cidrs = var.ssh_allowed_cidrs
+}
+
 
 #output "website_url" {
 #  value = "http://${module.static_site.website_endpoint}"
