@@ -35,7 +35,8 @@ module "security_groups" {
   vpc_id      = module.network.vpc_id
 
   ssh_allowed_cidrs = var.ssh_allowed_cidrs
-  web_http_cidrs    = ["0.0.0.0/0"] # V2 & V3: no ALB yet
+#  web_http_cidrs    = ["0.0.0.0/0"] # V2 & V3: no ALB yet
+  web_http_cidrs    = [] # V5: ALB
 }
 
 
@@ -103,6 +104,33 @@ module "nacl" {
   ssh_allowed_cidrs = var.ssh_allowed_cidrs
 }
 
+
+
+# Version 5
+module "alb" {
+  source = "../../modules/alb"
+
+  name               = "cafe"
+  environment        = "prod"
+  vpc_id             = module.network.vpc_id
+  subnet_ids         = module.network.public_subnet_ids
+  security_group_ids = [module.security_groups.alb_sg_id]
+}
+
+module "asg" {
+  source = "../../modules/asg"
+
+  name               = "cafe"
+  environment        = "prod"
+  subnet_ids         = module.network.public_subnet_ids
+  security_group_ids = [module.security_groups.web_sg_id]
+  target_group_arns  = [module.alb.target_group_arn]
+  ami_id             = var.web_ami_id
+}
+
+output "alb_dns_name" {
+  value = module.alb.dns_name
+}
 
 #output "website_url" {
 #  value = "http://${module.static_site.website_endpoint}"

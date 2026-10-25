@@ -3,6 +3,6 @@
   hosts: web
   become: true
   roles:
-    - webserver
-    - app-deploy
-    - db-init
+    - { role: webserver,  tags: [web] }
+    - { role: app-deploy, tags: [app] }
+    - { role: db-init,    tags: [db] }
