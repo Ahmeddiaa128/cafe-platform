@@ -4,6 +4,8 @@
 
 ## Architecture
 
+![V1 architecture](diagrams/v1-architecture.png)
+
 ```
 Browser ──HTTP──► S3 Static Website Endpoint ──► Bucket (index.html, css/, images/)
 ```
