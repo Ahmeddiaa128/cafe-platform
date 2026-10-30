@@ -4,6 +4,8 @@
 
 ## Architecture
 
+![V5 architecture](diagrams/v5-architecture.png)
+
 ```
                     Internet
                        │ HTTP :80
