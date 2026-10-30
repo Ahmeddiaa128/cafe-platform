@@ -5,6 +5,8 @@ maintenance burden, improving performance, and reducing costs.
 
 ## Architecture
 
+![V6 architecture](diagrams/v6-architecture.png)
+
 ```
 EventBridge scheduled rule (daily, cron in UTC)
         │ invoke
