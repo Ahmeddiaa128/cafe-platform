@@ -4,6 +4,8 @@
 
 ## Architecture
 
+![V3 architecture](diagrams/v3-architecture.png)
+
 ```
 Internet ──HTTP:80──► EC2 (Apache + PHP)   public subnet, us-east-1a
                           │
