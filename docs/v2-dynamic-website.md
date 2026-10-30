@@ -4,6 +4,8 @@
 
 ## Architecture
 
+![V2 architecture](diagrams/v2-architecture.png)
+
 ```
 Internet ──HTTP:80──► EC2 (Apache + PHP + MariaDB) in a public subnet
                           │
