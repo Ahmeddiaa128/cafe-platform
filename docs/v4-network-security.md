@@ -4,6 +4,8 @@
 
 ## Architecture
 
+![V4 architecture](diagrams/v4-architecture.png)
+
 ```
 Internet
    │  80/443 (+ SSH from admin IP)
